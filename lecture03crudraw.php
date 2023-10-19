@@ -11,28 +11,28 @@ if (!$con) {
 }
 
 // Database creation
-$meraSql = "Create database kinza";
-$res = mysqli_query($con, $meraSql);
+// $meraSql = "Create database kinza";
+// $res = mysqli_query($con, $meraSql);
 
-if ($res) {
-    echo "db is created ";
-}
+// if ($res) {
+//     echo "db is created ";
+// }
 
-// Table creation
-$table = "
- create table info 
- ( id int primary key  not null auto_increment , 
- name varchar(50), 
- email varchar(50),
- pass varchar(50)
- )
-";
+// // Table creation
+// $table = "
+//  create table info 
+//  ( id int primary key  not null auto_increment , 
+//  name varchar(50), 
+//  email varchar(50),
+//  pass varchar(50)
+//  )
+// ";
 
-$res = mysqli_query($con, $table);
+// $res = mysqli_query($con, $table);
 
-if ($res) {
-    echo "table is created ";
-}
+// if ($res) {
+//     echo "table is created ";
+// }
 
 // Insert query
 $name = "chintumintu";
