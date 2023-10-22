@@ -106,6 +106,47 @@ if (isset($_POST["title"])) {
 </head>
 
 <body>
+
+    <!-- Button trigger modal -->
+    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Launch demo modal
+    </button> -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="lecture04todoapp.php">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Title</label>
+                            <input type="text" class="form-control" name="titleEditt" id="titleEdit" aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label">Discription</label>
+                            <textarea class="form-control" name="descEditt" id="descEdit" rows="3"></textarea>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Update</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">itaskapp</a>
@@ -186,7 +227,7 @@ if (isset($_POST["title"])) {
                     <th scope="col">#</th>
                     <th scope="col">Title</th>
                     <th scope="col">Description</th>
-                    <!-- <th scope="col">Handle</th> -->
+                    <th scope="col">Handle</th>
                 </tr>
             </thead>
 
@@ -208,7 +249,14 @@ if (isset($_POST["title"])) {
 
                             echo "<td>" . $row["id"] . "</td>";
                             echo "<td>" . $row["title"] . "</td>";
-                            echo "<td>" . $row["description"] . "</td></tr>";
+                            echo "<td>" . $row["description"] . "</td>";
+                            echo "<td>
+                            <button type='button' class='btn btn-warning'>Delete</button>
+                            <button type='button'  class='btn btn-info edits'>Edit</button> </td>
+                            
+                            
+                            
+                            </tr>";
                             // echo "<td>" . $row["desc"] . "</td>"
                         }
                     }
@@ -233,7 +281,38 @@ if (isset($_POST["title"])) {
             $('#myTable').DataTable();
         });
     </script>
+    <script>
+        edits = document.getElementsByClassName("edits");
 
+
+
+
+        Array.from(edits).forEach((element) => {
+            element.addEventListener("click", (e) => {
+
+
+
+
+
+                tr = e.target.parentNode.parentNode;
+
+
+                title = tr.getElementsByTagName("td")[1].innerText;
+                desc = tr.getElementsByTagName("td")[2].innerText;
+
+
+
+                titleEdit.value = title;
+                descEdit.value = desc;
+                console.log("mubarak ho edit", tr)
+                console.log(title, desc)
+
+                $('#editModal').modal('toggle');
+
+
+            })
+        });
+    </script>
 
 
 
