@@ -1,22 +1,4 @@
 <?php
-$server = "localhost";
-$username = "root";
-$password = "";
-$database = "itaskapp";
-
-$insert = false;
-
-$con = mysqli_connect($server, $username, $password, $database);
-
-
-
-
-if (!$con) {
-
-    die("connection_aborted" . mysqli_connect_error());
-}
-
-
 
 
 
@@ -58,13 +40,23 @@ if (!$con) {
 
 
 
-if (isset($_POST["title"])) {
 
-    $title = $_POST["title"];
-    $desc = $_POST["desc"];
 
-    $sql = "insert into info(title, description)values('$title', '$desc')";
+require 'crudphp/connection.php';
 
+
+
+
+if (isset($_GET["deletevalue"])) {
+
+
+
+    $sno = $_GET["deletevalue"];
+
+
+
+
+    $sql = "delete from info where id = '$sno'";
 
 
 
@@ -72,11 +64,12 @@ if (isset($_POST["title"])) {
 
 
 
+
+
     if ($res) {
-        // echo "successfull";
-        $insert = true;
+        echo "delete successfully";
     } else {
-        echo "failed";
+        echo "delete failed";
     }
 }
 
@@ -84,11 +77,7 @@ if (isset($_POST["title"])) {
 
 
 
-
-
 ?>
-
-
 <!doctype html>
 <html lang="en">
 
@@ -121,7 +110,9 @@ if (isset($_POST["title"])) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="lecture04todoapp.php">
+                    <form method="post" action="crudphp/update.php">
+
+                        <input type="hidden" name="editid" id="editidd">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Title</label>
                             <input type="text" class="form-control" name="titleEditt" id="titleEdit" aria-describedby="emailHelp">
@@ -133,7 +124,7 @@ if (isset($_POST["title"])) {
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Update</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
                         </div>
                     </form>
                 </div>
@@ -187,16 +178,16 @@ if (isset($_POST["title"])) {
     </nav>
 
     <?php
-    if ($insert) {
-        echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>
-        <strong>Task  Successfull!</strong>Your Task has been created.
-        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-    </div>";
-    }
+    // if ($insert) {
+    //     echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>
+    //     <strong>Task  Successfull!</strong>Your Task has been created.
+    //     <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+    // </div>";
+    // }
     ?>
     <div class="container">
 
-        <form method="post" action="lecture04todoapp.php">
+        <form method="post" action="crudphp/create.php">
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Title</label>
                 <input type="text" class="form-control" name="title" id="exampleInputEmail1" aria-describedby="emailHelp">
@@ -236,23 +227,23 @@ if (isset($_POST["title"])) {
 
 
                     <?php
-
+                    require 'crudphp/connection.php';
                     $showsql = "Select * from info ";
 
                     $result = mysqli_query($con, $showsql);
 
                     $totalcount = mysqli_num_rows($result);
-
+                    $count = 1;
                     if ($totalcount > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
 
 
-                            echo "<td>" . $row["id"] . "</td>";
+                            echo "<td>" . $count++ . "</td>";
                             echo "<td>" . $row["title"] . "</td>";
                             echo "<td>" . $row["description"] . "</td>";
                             echo "<td>
-                            <button type='button' class='btn btn-warning'>Delete</button>
-                            <button type='button'  class='btn btn-info edits'>Edit</button> </td>
+                            <button type='button' class='btn btn-warning deletes' id=d" . $row["id"] . ">Delete</button>
+                            <button type='button'  class='btn btn-info edits' id=" . $row["id"] . "  >Edit</button> </td>
                             
                             
                             
@@ -281,38 +272,10 @@ if (isset($_POST["title"])) {
             $('#myTable').DataTable();
         });
     </script>
-    <script>
-        edits = document.getElementsByClassName("edits");
 
-
-
-
-        Array.from(edits).forEach((element) => {
-            element.addEventListener("click", (e) => {
-
-
-
-
-
-                tr = e.target.parentNode.parentNode;
-
-
-                title = tr.getElementsByTagName("td")[1].innerText;
-                desc = tr.getElementsByTagName("td")[2].innerText;
-
-
-
-                titleEdit.value = title;
-                descEdit.value = desc;
-                console.log("mubarak ho edit", tr)
-                console.log(title, desc)
-
-                $('#editModal').modal('toggle');
-
-
-            })
-        });
-    </script>
+    
+    <script src="js/update.js"></script>
+    <script src="js/delete.js"></script>
 
 
 
