@@ -76,6 +76,27 @@ if (isset($_GET["deletevalue"])) {
 
 
 
+if (isset($_POST["del"])) {
+
+
+    $sql = "delete from info";
+
+
+
+    $res =  mysqli_query($con, $sql);
+
+
+
+
+
+    if ($res) {
+        echo "delete successfully";
+    } else {
+        echo "delete failed";
+    }
+}
+
+
 
 ?>
 <!doctype html>
@@ -199,9 +220,21 @@ if (isset($_GET["deletevalue"])) {
 
             <div class="d-grid gap-2">
                 <button class="btn btn-success" type="submit">Create</button>
+
+            </div>
+        </form>
+
+
+
+
+        <form action="lecture04todoapp.php" method="post">
+
+            <input type="hidden" name="del">
+            <div class="d-grid gap-2" style="margin-top: 10px;">
                 <button class="btn btn-danger" type="submit">Delete</button>
             </div>
         </form>
+
     </div>
 
 
@@ -273,7 +306,7 @@ if (isset($_GET["deletevalue"])) {
         });
     </script>
 
-    
+
     <script src="js/update.js"></script>
     <script src="js/delete.js"></script>
 
