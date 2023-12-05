@@ -29,8 +29,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($pass == $confirmpass) {
 
+
+            $hash = password_hash($pass, PASSWORD_DEFAULT);
             $sql_insert = "insert into info (Name, Email,Password)
-            values('$name', '$email', '$pass' )";
+            values('$name', '$email', '$hash' )";
 
 
             $result = mysqli_query($con, $sql_insert);

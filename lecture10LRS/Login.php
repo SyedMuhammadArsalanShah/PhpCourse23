@@ -1,3 +1,49 @@
+<?php
+$showerror = false;
+$passerror = false;
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    // its a connections from model file 
+    require "Models/connection.php";
+
+
+    $email = $_POST["email"];
+    $pass = $_POST["pass"];
+
+
+    $sqlexist = "select * from  info where email ='$email'";
+
+    $res = mysqli_query($con, $sqlexist);
+
+    // count rows against your sql query 
+    $rows = mysqli_num_rows($res);
+
+
+    if ($rows == 1) {
+        while ($item = mysqli_fetch_assoc($res)) {
+            if (password_verify($pass, $item["Password"])) {
+                header("location:welcome.php");
+                # code...
+            }else{
+                echo"sahi password dalo khuda ke bandy";
+            }
+        }
+    }
+}
+
+
+
+
+?>
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -282,7 +328,7 @@
                         </div>
                         <div class="right-content">
                             <h3 class="form-title">Login</h3>
-                            <form class="form-horizontal" action="Lecture03Form Fresher.php" method="POST">
+                            <form class="form-horizontal" action="Login.php" method="POST">
                                 <div class="form-group">
                                     <label>Email</label>
                                     <input type="email" name="email" class="form-control">
@@ -292,8 +338,7 @@
                                     <input type="password" name="pass" class="form-control">
                                 </div>
 
-                                <button class="btn signin">login</button>
-
+                                <input value="login" type="submit" class="btn signin">
 
                             </form>
 
