@@ -1,6 +1,7 @@
 <?php
 $showerror = false;
-$passerror = false;
+
+$login = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -23,10 +24,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($rows == 1) {
         while ($item = mysqli_fetch_assoc($res)) {
             if (password_verify($pass, $item["Password"])) {
+
+                $login = true;
+
+                session_start();
+
+
+                $_SESSION["email"] = $email;
+                $_SESSION["loggedIN"] = true;
+
                 header("location:welcome.php");
-                # code...
-            }else{
-                echo"sahi password dalo khuda ke bandy";
+            } else {
+                $showerror = "sahi password dalo khuda ke bandy";
             }
         }
     }
@@ -315,7 +324,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php
     require "Models/navbar.php";
     ?>
+
+
+    <?php
+    if ($login) {
+        echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>
+            <strong>Success!</strong> Your account successfully login.
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+           </div>";
+    }
+
+
+
+    ?>
+
+    <?php
+    if ($showerror) {
+        echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+            <strong>Error !</strong> ." . $showerror . "
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+           </div>";
+    }
+
+
+
+    ?>
+
+
+
     <div class="form-bg">
+
+
         <div class="container">
             <div class="row">
                 <div class=" col-md-12 col-sm-6">

@@ -1,5 +1,21 @@
+<?php
 
 
+
+
+if (!isset($_SESSION["loggedIN"]) || $_SESSION["loggedIN"] != true) {
+
+
+  $loggedin = true;
+} else {
+  $loggedin = false;
+}
+
+
+
+
+
+?>
 
 
 
@@ -15,15 +31,41 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Register</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Logout</a>
-        </li>
+
+        <?php
+
+        if ($loggedin) {
+
+
+          echo "
+         
+         <li class='nav-item'>
+         <a class='nav-link' href='./Login.php'>Login</a>
+       </li>
+         
+
+       <li class='nav-item'>
+       <a class='nav-link' href='./Register.php'>Register</a>
+     </li>";
+        }
+
+
+        if (!$loggedin) {
+
+          echo
+          "
+     <li class='nav-item'>
+       <a class='nav-link' href='./logout.php'>Logout</a>
+     </li>
+         
+         ";
+        }
+
+
+
+        ?>
+
+
       </ul>
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
